@@ -36,6 +36,15 @@ function getStudioUrl(courseId, unitId) {
   return urlFull;
 }
 
+function getAttendanceUrl(courseId) {
+  const urlBase = 'http://apps.local.edly.io:2029/';
+  let urlFull;
+  if (urlBase) {
+    urlFull = `${urlBase}attendance/${courseId}/`;
+  }
+  return urlFull;
+}
+
 const InstructorToolbar = (props) => {
   // This didMount logic became necessary once we had a page that does a redirect on a quick exit.
   // As a result, it unmounts the InstructorToolbar (which will be remounted by the new component),
@@ -60,6 +69,7 @@ const InstructorToolbar = (props) => {
 
   const urlInsights = getInsightsUrl(courseId);
   const urlStudio = getStudioUrl(courseId, unitId);
+  const urlAttendance = getAttendanceUrl(courseId);
   const [masqueradeErrorMessage, showMasqueradeError] = useState(null);
 
   const accessExpirationMasqueradeBanner = useAccessExpirationMasqueradeBanner(courseId, tab);
@@ -69,9 +79,20 @@ const InstructorToolbar = (props) => {
     <div data-testid="instructor-toolbar">
       <div className="bg-primary text-white">
         <div className="container-xl py-3 d-md-flex justify-content-end align-items-start">
-          <div className="align-items-center flex-grow-1 d-md-flex mx-1 my-1">
+          <div className="align-items-center flex d-md-flex mx-1 my-1">
             <MasqueradeWidget courseId={courseId} onError={showMasqueradeError} />
           </div>
+          {(urlAttendance) && (
+            <>
+              <hr className="border-light" />
+              <span className="mr-2 mt-1 col-form-label">Lista de chamada:</span>
+            </>
+          )}
+          {urlAttendance && (
+            <span className="mx-1 my-1">
+              <a className="btn btn-inverse-outline-primary" href={urlAttendance}>Acessar</a>
+            </span>
+          )}
           {(urlStudio || urlInsights) && (
             <>
               <hr className="border-light" />
