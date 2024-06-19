@@ -37,7 +37,8 @@ function getStudioUrl(courseId, unitId) {
 }
 
 function getAttendanceUrl(courseId) {
-  const urlBase = getConfig().ATTENDANCE_URL;
+  const urlBase = 'http://apps.local.edly.io:2029/';
+  // const urlBase = getConfig().ATTENDANCE_URL;
   let urlFull;
   if (urlBase) {
     urlFull = `${urlBase}attendance/${courseId}/`;
